@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button getFeed = findViewById(R.id.get_feed_btn);
-        RadioButton dateSelecter = findViewById(R.id.date_radio_btn);
+        final RadioButton dateSelecter = findViewById(R.id.date_radio_btn);
+        RadioButton roadSelector = findViewById(R.id.road_radio_btn);
         final TextView dateInput = findViewById(R.id.date_input);
         rssFeedText = findViewById(R.id.rss_feed);
         resultsBtn = findViewById(R.id.get_results_btn);
@@ -49,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
         getFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new RssFeed(rssFeedText).execute();
+                if (dateSelecter.isActivated()) {
+                    new RssFeed(rssFeedText).execute(currentRoadworksUrl);
+                }
             }
         });
         dateSelecter.setOnClickListener(new View.OnClickListener() {

@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -54,6 +56,8 @@ public class RssFeed extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        TrafficXMLParser trafficXMLParser = new TrafficXMLParser();
+        trafficXMLParser.readEntry();
         mTextView.get().setText(s);
     }
 }
