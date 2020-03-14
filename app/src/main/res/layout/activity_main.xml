@@ -7,23 +7,25 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/date_button"
+        android:id="@+id/get_feed_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/dateSelectBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_input" />
+        app:layout_constraintTop_toBottomOf="@+id/radio_butt_group" />
 
     <EditText
         android:id="@+id/date_input"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_width="342dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="68dp"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,8 +43,32 @@
         android:id="@+id/get_results_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="84dp"
         android:text="Button"
-        app:layout_constraintTop_toBottomOf="@+id/date_button"
+        app:layout_constraintTop_toBottomOf="@+id/get_feed_btn"
         tools:layout_editor_absoluteX="161dp" />
+
+    <RadioGroup
+        android:id="@+id/radio_butt_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_input">
+
+        <RadioButton
+            android:id="@+id/date_radio_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date" />
+
+        <RadioButton
+            android:id="@+id/road_radio_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/road" />
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
