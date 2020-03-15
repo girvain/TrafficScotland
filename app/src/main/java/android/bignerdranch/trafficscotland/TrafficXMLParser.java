@@ -13,6 +13,115 @@ import java.util.List;
 
 public class TrafficXMLParser {
 
+    private static final String ns = null;
+    List<TrafficData> trafficData = new ArrayList();
+
+    class TrafficData {
+        private String title;
+        private String description;
+        private String link;
+        private String georss;
+        private String pubDate;
+        private String startDate;
+        private String endDate;
+    }
+
+    public String parse(String string) throws XmlPullParserException, IOException {
+        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        XmlPullParser xpp = factory.newPullParser();
+
+        String parsedResult = "";
+
+        xpp.setInput( new StringReader (string) );
+        int eventType = xpp.getEventType();
+
+
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if(eventType == XmlPullParser.START_DOCUMENT) {
+                System.out.println("Start document");
+            } else if(eventType == XmlPullParser.START_TAG) {
+                if (xpp.getName().equals("item")) {
+                    TrafficData trafficDataObj = new TrafficData();
+                    eventType = xpp.nextTag();
+                    if (xpp.getName().equals("title")) {
+                        eventType = xpp.next();
+                        trafficDataObj.title = xpp.getText();
+                        Log.v("GAVINROSS", xpp.getText());
+                        eventType = xpp.nextTag(); // </title> end tag
+                        eventType = xpp.nextTag(); // <description>
+                        //Log.v("GAVINROSS", xpp.getName());
+
+                    }
+                    if (xpp.getName().equals("description")) {
+                        eventType = xpp.next();
+                        trafficDataObj.description = xpp.getText();
+                        String[] startAndEndDates = getDates(xpp.getText());
+                        trafficDataObj.startDate = startAndEndDates[0];
+                        trafficDataObj.endDate = startAndEndDates[1];
+
+//                        Log.v("startDate", getDates(trafficDataObj.description)[0]);
+//                        Log.v("endDate", getDates(trafficDataObj.description)[1]);
+
+                        Log.v("GAVINROSS", xpp.getText());
+                        eventType = xpp.nextTag(); // </title> end tag
+                        eventType = xpp.nextTag(); // <... next tag
+
+                    }
+                    if (xpp.getName().equals("link")) {
+                        eventType = xpp.next();
+                        trafficDataObj.link = xpp.getText();
+                        Log.v("GAVINROSS", xpp.getText());
+                        eventType = xpp.nextTag(); // </title> end tag
+                        eventType = xpp.nextTag(); // <description>
+                        //Log.v("GAVINROSS", xpp.getName());
+
+                    }
+                    if (xpp.getName().equals("point")) {
+                        eventType = xpp.next();
+                        trafficDataObj.georss = xpp.getText();
+                        Log.v("GAVINROSS", xpp.getText());
+                        eventType = xpp.nextTag(); // </title> end tag
+                        eventType = xpp.nextTag(); // <description>
+                        //Log.v("GAVINROSS", xpp.getName());
+
+                    }
+                    trafficData.add(trafficDataObj);
+                }
+            }
+            eventType = xpp.next();
+        }
+        System.out.println("End document");
+        return parsedResult;
+    }
+
+    public String[] getDates(String date) throws StringIndexOutOfBoundsException {
+        if (date.indexOf("Start Date: ") == -1 || date.indexOf("End Date: ") == -1) {
+            return null;
+        }
+
+        else {
+            String startDateIndex = date.substring(date.indexOf("Start Date: "), date.indexOf(':'));
+            String data1 = date.substring(startDateIndex.length() + 2, date.indexOf('<'));
+            String leftOverString = date.substring(date.indexOf('>'));
+
+            String endDateIndex = leftOverString.substring(leftOverString.indexOf("End Date: "), date.indexOf(':'));
+            String data2 = "";
+            if (date.indexOf("<br />Delay") != -1) {
+                data2 = leftOverString.substring(endDateIndex.length() + 2, leftOverString.indexOf('<'));
+            } else {
+                data2 = leftOverString.substring(endDateIndex.length() + 2);
+            }
+            String[] results = new String[2];
+            results[0] = data1;
+            results[1] = data2;
+            return results;
+        }
+
+    }
+
+
+
     public static class Entry {
         public final String title;
         public final String link;
@@ -24,12 +133,11 @@ public class TrafficXMLParser {
             this.link = link;
         }
     }
-    private static final String ns = null;
 
     // Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them off
 // to their respective "read" methods for processing. Otherwise, skips the tag.
-    public Entry readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
-        parser.require(XmlPullParser.START_TAG, ns, "entry");
+    private Entry readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
+        parser.require(XmlPullParser.START_TAG, ns, "item");
         String title = null;
         String summary = null;
         String link = null;
@@ -48,6 +156,7 @@ public class TrafficXMLParser {
                 skip(parser);
             }
         }
+        Log.v("GAVINROSS", "Item");
         return new Entry(title, summary, link);
     }
 
@@ -56,6 +165,7 @@ public class TrafficXMLParser {
         parser.require(XmlPullParser.START_TAG, ns, "title");
         String title = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "title");
+        Log.v("GAVINROSS", title);
         return title;
     }
 
@@ -110,3 +220,4 @@ public class TrafficXMLParser {
         }
     }
 }
+
