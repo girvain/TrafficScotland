@@ -15,15 +15,6 @@ public class TrafficXMLParser {
     private static final String ns = null;
     LinkedList<TrafficDataModel> trafficDataList = new LinkedList<>();
 
-    class TrafficData {
-        private String title;
-        private String description;
-        private String link;
-        private String georss;
-        private String pubDate;
-        private String startDate;
-        private String endDate;
-    }
 
     public LinkedList<TrafficDataModel> parse(String string) throws XmlPullParserException, IOException {
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();

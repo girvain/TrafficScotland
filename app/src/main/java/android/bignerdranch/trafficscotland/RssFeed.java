@@ -20,6 +20,7 @@ import java.io.StringReader;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class RssFeed extends AsyncTask<String, String, String> {
@@ -45,6 +46,8 @@ public class RssFeed extends AsyncTask<String, String, String> {
         URLConnection yc;
         BufferedReader in = null;
         String inputLine = "";
+        String date = strings[1]; // Date input from user
+        Log.v("DATE FROM USER", date);
         try {
 
             Log.e("MyTag","in try");

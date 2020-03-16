@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private String currentRoadworksUrl = "https://trafficscotland.org/rss/feeds/roadworks.aspx";
     private String futureRoadworksUrl = "https://trafficscotland.org/rss/feeds/plannedroadworks.aspx";
     final String currentIncedentsUrl = "https://trafficscotland.org/rss/feeds/currentincidents.aspx";
-
+    private String dateAsString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +64,13 @@ public class MainActivity extends AppCompatActivity {
         final Calendar newCalendar = Calendar.getInstance();
         final DatePickerDialog StartTime = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-//                dateInput.setText(dateFormatter.format(newDate.getTime()));
-                dateInput.setText(newDate.getTime().toString());
+//                Calendar newDate = Calendar.getInstance();
+//                newDate.set(year, monthOfYear, dayOfMonth);
+////                dateInput.setText(dateFormatter.format(newDate.getTime()));
+//                dateInput.setText(newDate.getTime().toString());
+
+                dateAsString = Integer.toString(dayOfMonth) + "/" + Integer.toString((monthOfYear+1)) + "/" + Integer.toString(year);
+                dateInput.setText(dateAsString);
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -76,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (dateSelector.isChecked()) {
-                    new RssFeed(mRecyclerView).execute(currentRoadworksUrl);
+                    //String[] input = {currentIncedentsUrl, dateInput.getText().toString()};
+                    new RssFeed(mRecyclerView).execute(currentRoadworksUrl, dateInput.getText().toString());
                 }
             }
         });
