@@ -1,6 +1,8 @@
 package android.bignerdranch.trafficscotland;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -11,12 +13,20 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView rssFeedText;
-    private Button resultsBtn;
     private RadioButton dateSelector;
+    private RadioButton roadSelector;
+    private Button getFeed;
+    private TextView dateInput;
+    //private LinkedList<String> mWordList = new LinkedList<>();
+    private LinkedList<TrafficDataModel> mTrafficDataList = new LinkedList<>();
+    private RecyclerView mRecyclerView;
+    private WordListAdapter mAdapter;
+
     private String currentRoadworksUrl = "https://trafficscotland.org/rss/feeds/roadworks.aspx";
     private String futureRoadworksUrl = "https://trafficscotland.org/rss/feeds/plannedroadworks.aspx";
     final String currentIncedentsUrl = "https://trafficscotland.org/rss/feeds/currentincidents.aspx";
@@ -27,13 +37,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button getFeed = findViewById(R.id.get_feed_btn);
-        final RadioButton dateSelecter = findViewById(R.id.date_radio_btn);
-        RadioButton roadSelector = findViewById(R.id.road_radio_btn);
-        final TextView dateInput = findViewById(R.id.date_input);
-        rssFeedText = findViewById(R.id.rss_feed);
-        resultsBtn = findViewById(R.id.get_results_btn);
+        getFeed = findViewById(R.id.get_feed_btn);
+        dateSelector = findViewById(R.id.date_radio_btn);
+        roadSelector = findViewById(R.id.road_radio_btn);
+        dateInput = findViewById(R.id.date_input);
 
+
+//        // Create list data for recycler view
+//        for (int i = 0; i < 20; i++) {
+//            //mWordList.addLast("Word " + i);
+//            TrafficDataModel trafficDataModel = new TrafficDataModel();
+//            trafficDataModel.setTitle("M74 Ardrishaig");
+//            mTrafficDataList.addLast(trafficDataModel);
+//        }
+//
+//        // Get a handle to the RecyclerView.
+        mRecyclerView = findViewById(R.id.recyclerview);
+//        // Create an adapter and supply the data to be displayed.
+//        mAdapter = new WordListAdapter(this, mTrafficDataList);
+//        // Connect the adapter with the RecyclerView.
+//        mRecyclerView.setAdapter(mAdapter);
+//        // Give the RecyclerView a default layout manager.
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         final Calendar newCalendar = Calendar.getInstance();
         final DatePickerDialog StartTime = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -50,24 +75,19 @@ public class MainActivity extends AppCompatActivity {
         getFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (dateSelecter.isActivated()) {
-                    new RssFeed(rssFeedText).execute(currentRoadworksUrl);
+                if (dateSelector.isChecked()) {
+                    new RssFeed(mRecyclerView).execute(currentRoadworksUrl);
                 }
             }
         });
-        dateSelecter.setOnClickListener(new View.OnClickListener() {
+        dateSelector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 StartTime.show();
             }
         });
 
-        resultsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new RssFeed(rssFeedText).execute(currentRoadworksUrl);
-            }
-        });
+
     }
 
 }

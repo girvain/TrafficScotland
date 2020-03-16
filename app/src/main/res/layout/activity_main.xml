@@ -10,7 +10,7 @@
         android:id="@+id/get_feed_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="36dp"
         android:text="@string/dateSelectBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -21,32 +21,13 @@
         android:id="@+id/date_input"
         android:layout_width="342dp"
         android:layout_height="47dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="60dp"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/rss_feed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/get_results_btn" />
-
-    <Button
-        android:id="@+id/get_results_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:text="Button"
-        app:layout_constraintTop_toBottomOf="@+id/get_feed_btn"
-        tools:layout_editor_absoluteX="161dp" />
 
     <RadioGroup
         android:id="@+id/radio_butt_group"
@@ -70,5 +51,15 @@
             android:layout_height="wrap_content"
             android:text="@string/road" />
     </RadioGroup>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="449dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/get_feed_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

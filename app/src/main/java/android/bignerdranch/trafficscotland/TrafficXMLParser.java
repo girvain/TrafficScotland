@@ -8,13 +8,12 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 public class TrafficXMLParser {
 
     private static final String ns = null;
-    List<TrafficData> trafficData = new ArrayList();
+    LinkedList<TrafficDataModel> trafficDataList = new LinkedList<>();
 
     class TrafficData {
         private String title;
@@ -26,7 +25,7 @@ public class TrafficXMLParser {
         private String endDate;
     }
 
-    public String parse(String string) throws XmlPullParserException, IOException {
+    public LinkedList<TrafficDataModel> parse(String string) throws XmlPullParserException, IOException {
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         factory.setNamespaceAware(true);
         XmlPullParser xpp = factory.newPullParser();
@@ -42,11 +41,11 @@ public class TrafficXMLParser {
                 System.out.println("Start document");
             } else if(eventType == XmlPullParser.START_TAG) {
                 if (xpp.getName().equals("item")) {
-                    TrafficData trafficDataObj = new TrafficData();
+                    TrafficDataModel trafficDataObj = new TrafficDataModel();
                     eventType = xpp.nextTag();
                     if (xpp.getName().equals("title")) {
                         eventType = xpp.next();
-                        trafficDataObj.title = xpp.getText();
+                        trafficDataObj.setTitle(xpp.getText());
                         Log.v("GAVINROSS", xpp.getText());
                         eventType = xpp.nextTag(); // </title> end tag
                         eventType = xpp.nextTag(); // <description>
@@ -55,10 +54,10 @@ public class TrafficXMLParser {
                     }
                     if (xpp.getName().equals("description")) {
                         eventType = xpp.next();
-                        trafficDataObj.description = xpp.getText();
+                        trafficDataObj.setDescription(xpp.getText());
                         String[] startAndEndDates = getDates(xpp.getText());
-                        trafficDataObj.startDate = startAndEndDates[0];
-                        trafficDataObj.endDate = startAndEndDates[1];
+                        trafficDataObj.setStartDate(startAndEndDates[0]);
+                        trafficDataObj.setEndDate(startAndEndDates[1]);
 
 //                        Log.v("startDate", getDates(trafficDataObj.description)[0]);
 //                        Log.v("endDate", getDates(trafficDataObj.description)[1]);
@@ -70,7 +69,7 @@ public class TrafficXMLParser {
                     }
                     if (xpp.getName().equals("link")) {
                         eventType = xpp.next();
-                        trafficDataObj.link = xpp.getText();
+                        trafficDataObj.setLink(xpp.getText());
                         Log.v("GAVINROSS", xpp.getText());
                         eventType = xpp.nextTag(); // </title> end tag
                         eventType = xpp.nextTag(); // <description>
@@ -79,20 +78,20 @@ public class TrafficXMLParser {
                     }
                     if (xpp.getName().equals("point")) {
                         eventType = xpp.next();
-                        trafficDataObj.georss = xpp.getText();
+                        trafficDataObj.setGeorss(xpp.getText());
                         Log.v("GAVINROSS", xpp.getText());
                         eventType = xpp.nextTag(); // </title> end tag
                         eventType = xpp.nextTag(); // <description>
                         //Log.v("GAVINROSS", xpp.getName());
 
                     }
-                    trafficData.add(trafficDataObj);
+                    trafficDataList.add(trafficDataObj);
                 }
             }
             eventType = xpp.next();
         }
         System.out.println("End document");
-        return parsedResult;
+        return trafficDataList;
     }
 
     public String[] getDates(String date) throws StringIndexOutOfBoundsException {

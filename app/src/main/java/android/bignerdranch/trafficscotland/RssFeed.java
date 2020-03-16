@@ -4,6 +4,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -17,14 +20,22 @@ import java.io.StringReader;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.LinkedList;
 
 public class RssFeed extends AsyncTask<String, String, String> {
 
     private WeakReference<TextView> mTextView;
+
+    private WeakReference<RecyclerView> mRecyclerView;
+
     private String result = "";
 
     RssFeed(TextView textView) {
         mTextView = new WeakReference<>(textView);
+    }
+
+    RssFeed(RecyclerView recyclerView) {
+        mRecyclerView = new WeakReference<>(recyclerView);
     }
 
 
@@ -62,6 +73,7 @@ public class RssFeed extends AsyncTask<String, String, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         String parsedString = "";
+        LinkedList<TrafficDataModel> mTrafficDataList = new LinkedList<>();
 
 //        try {
 //            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -90,7 +102,7 @@ public class RssFeed extends AsyncTask<String, String, String> {
 
         TrafficXMLParser trafficXMLParser = new TrafficXMLParser();
         try {
-            parsedString = trafficXMLParser.parse(s);
+            mTrafficDataList = trafficXMLParser.parse(s);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -99,7 +111,14 @@ public class RssFeed extends AsyncTask<String, String, String> {
 
 
 
-        mTextView.get().setText(parsedString);
+        // Create an adapter and supply the data to be displayed.
+        WordListAdapter mAdapter = new WordListAdapter(mRecyclerView.get().getContext(), mTrafficDataList);
+        // Connect the adapter with the RecyclerView.
+        mRecyclerView.get().setAdapter(mAdapter);
+        // Give the RecyclerView a default layout manager.
+        mRecyclerView.get().setLayoutManager(new LinearLayoutManager(mRecyclerView.get().getContext()));
+
+        //mTextView.get().setText(parsedString);
 
     }
 }
