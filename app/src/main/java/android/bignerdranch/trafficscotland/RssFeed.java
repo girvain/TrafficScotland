@@ -30,6 +30,7 @@ public class RssFeed extends AsyncTask<String, String, String> {
     private WeakReference<RecyclerView> mRecyclerView;
 
     private String result = "";
+    private String dateUserInput = "";
 
     RssFeed(TextView textView) {
         mTextView = new WeakReference<>(textView);
@@ -47,6 +48,7 @@ public class RssFeed extends AsyncTask<String, String, String> {
         BufferedReader in = null;
         String inputLine = "";
         String date = strings[1]; // Date input from user
+        dateUserInput = strings[1]; // pass the user input date to variable so onPostExecute can access it
         Log.v("DATE FROM USER", date);
         try {
 
@@ -103,7 +105,7 @@ public class RssFeed extends AsyncTask<String, String, String> {
 //            Log.e("PARSE FAIL", "Gavin Ross");
 //        }
 
-        TrafficXMLParser trafficXMLParser = new TrafficXMLParser();
+        TrafficXMLParser trafficXMLParser = new TrafficXMLParser(dateUserInput);
         try {
             mTrafficDataList = trafficXMLParser.parse(s);
         } catch (XmlPullParserException e) {

@@ -8,13 +8,20 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class TrafficXMLParser {
 
     private static final String ns = null;
     LinkedList<TrafficDataModel> trafficDataList = new LinkedList<>();
+    String dateUserInput;
 
+    public TrafficXMLParser(String dateUserInput) {
+        this.dateUserInput = dateUserInput;
+    }
 
     public LinkedList<TrafficDataModel> parse(String string) throws XmlPullParserException, IOException {
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -46,12 +53,17 @@ public class TrafficXMLParser {
                     if (xpp.getName().equals("description")) {
                         eventType = xpp.next();
                         trafficDataObj.setDescription(xpp.getText());
+                        // extract the long versions of start and end date from description
                         String[] startAndEndDates = getDates(xpp.getText());
-                        trafficDataObj.setStartDate(startAndEndDates[0]);
-                        trafficDataObj.setEndDate(startAndEndDates[1]);
+                        // convert each one to Calendar object and add to trafficDataObj
+                        trafficDataObj.setStartDate(convertRssDateToCalendarObj(startAndEndDates[0]));
+                        trafficDataObj.setEndDate(convertRssDateToCalendarObj(startAndEndDates[1]));
+                        // Convert long date to short version and add to trafficDataObj (String)
+                        trafficDataObj.setStartDateAsString(convertLongDateToShort(startAndEndDates[0]));
+                        trafficDataObj.setEndDateAsString(convertLongDateToShort(startAndEndDates[1]));
 
-//                        Log.v("startDate", getDates(trafficDataObj.description)[0]);
-//                        Log.v("endDate", getDates(trafficDataObj.description)[1]);
+//                        Log.v("startDate", trafficDataObj.getStartDate());
+//                        Log.v("endDate", trafficDataObj.getEndDate());
 
                         Log.v("GAVINROSS", xpp.getText());
                         eventType = xpp.nextTag(); // </title> end tag
@@ -110,104 +122,77 @@ public class TrafficXMLParser {
 
     }
 
-
-
-    public static class Entry {
-        public final String title;
-        public final String link;
-        public final String summary;
-
-        private Entry(String title, String summary, String link) {
-            this.title = title;
-            this.summary = summary;
-            this.link = link;
-        }
+    /**
+     * Converts the Rss feed results data format to a Calendar object. Must have only one date
+     * at a time and as such relies on the getDates() to split the description into two dates
+     * in the format "Wednesday, 01 January 2020 - 00:00".
+     * Uses the convertRssDateToCalendarObj() and the convertLongDateToShort().
+     * @param date
+     * @return
+     */
+    public Calendar convertRssDateToCalendarObj(String date) {
+        String shortDate = convertLongDateToShort(date);
+        Calendar c = convertStringToDate(shortDate);
+        return c;
     }
 
-    // Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them off
-// to their respective "read" methods for processing. Otherwise, skips the tag.
-    private Entry readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
-        parser.require(XmlPullParser.START_TAG, ns, "item");
-        String title = null;
-        String summary = null;
-        String link = null;
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
-            }
-            String name = parser.getName();
-            if (name.equals("title")) {
-                title = readTitle(parser);
-            } else if (name.equals("summary")) {
-                summary = readSummary(parser);
-            } else if (name.equals("link")) {
-                link = readLink(parser);
-            } else {
-                skip(parser);
-            }
-        }
-        Log.v("GAVINROSS", "Item");
-        return new Entry(title, summary, link);
-    }
-
-    // Processes title tags in the feed.
-    private String readTitle(XmlPullParser parser) throws IOException, XmlPullParserException {
-        parser.require(XmlPullParser.START_TAG, ns, "title");
-        String title = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, "title");
-        Log.v("GAVINROSS", title);
-        return title;
-    }
-
-    // Processes link tags in the feed.
-    private String readLink(XmlPullParser parser) throws IOException, XmlPullParserException {
-        String link = "";
-        parser.require(XmlPullParser.START_TAG, ns, "link");
-        String tag = parser.getName();
-        String relType = parser.getAttributeValue(null, "rel");
-        if (tag.equals("link")) {
-            if (relType.equals("alternate")){
-                link = parser.getAttributeValue(null, "href");
-                parser.nextTag();
-            }
-        }
-        parser.require(XmlPullParser.END_TAG, ns, "link");
-        return link;
-    }
-
-    // Processes summary tags in the feed.
-    private String readSummary(XmlPullParser parser) throws IOException, XmlPullParserException {
-        parser.require(XmlPullParser.START_TAG, ns, "summary");
-        String summary = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, "summary");
-        return summary;
-    }
-
-    // For the tags title and summary, extracts their text values.
-    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
+    // Method to parse a date from the XML long version Wednesday,  12 Febuary 2020 - 00:00
+    // to the short version 12/02/2020
+    public String convertLongDateToShort(String dateString) {
+        String regex = "\\d+";
         String result = "";
-        if (parser.next() == XmlPullParser.TEXT) {
-            result = parser.getText();
-            parser.nextTag();
-        }
-        return result;
-    }
-
-    private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
-        if (parser.getEventType() != XmlPullParser.START_TAG) {
-            throw new IllegalStateException();
-        }
-        int depth = 1;
-        while (depth != 0) {
-            switch (parser.next()) {
-                case XmlPullParser.END_TAG:
-                    depth--;
-                    break;
-                case XmlPullParser.START_TAG:
-                    depth++;
-                    break;
+        String[] words = dateString.split(" ");
+        for (String word : words) {
+            if (word.matches(regex)) {
+                result+= word+ "/";
+            } else if(!getNumOfMonth(word).isEmpty()) {
+                result+= getNumOfMonth(word) + "/";
             }
         }
+        return result.substring(0, result.length()-1); // take the last / off the end
     }
+
+    // Converts a date string in the format 01/02/2020 to a Calendar object
+    public Calendar convertStringToDate(String dateString) {
+        String[] numbers = dateString.split("/");
+        int day = Integer.parseInt(numbers[0]);
+        int month = Integer.parseInt(numbers[1]);
+        int year = Integer.parseInt(numbers[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        return calendar;
+    }
+
+    public String getNumOfMonth(String month) {
+        switch(month) {
+            case "January":
+                return "01";
+            case "February":
+                return "02";
+            case "March":
+                return "03";
+            case "April":
+                return "04";
+            case "May":
+                return "05";
+            case "June":
+                return "06";
+            case "July":
+                return "07";
+            case "August":
+                return "08";
+            case "September":
+                return "09";
+            case "October":
+                return "10";
+            case "November":
+                return "11";
+            case "December":
+                return "12";
+            default:
+                return "";
+        }
+    }
+
 }
 

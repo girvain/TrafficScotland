@@ -1,13 +1,33 @@
 package android.bignerdranch.trafficscotland;
 
+import java.util.Calendar;
+
 public class TrafficDataModel {
     private String title;
     private String description;
     private String link;
     private String georss;
     private String pubDate;
-    private String startDate;
-    private String endDate;
+    private Calendar startDate;
+    private Calendar endDate;
+    private String startDateAsString;
+    private String endDateAsString;
+
+    public String getStartDateAsString() {
+        return startDateAsString;
+    }
+
+    public void setStartDateAsString(String startDateAsString) {
+        this.startDateAsString = startDateAsString;
+    }
+
+    public String getEndDateAsString() {
+        return endDateAsString;
+    }
+
+    public void setEndDateAsString(String endDateAsString) {
+        this.endDateAsString = endDateAsString;
+    }
 
     public String getTitle() {
         return title;
@@ -49,19 +69,19 @@ public class TrafficDataModel {
         this.pubDate = pubDate;
     }
 
-    public String getStartDate() {
+    public Calendar getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Calendar startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Calendar getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Calendar endDate) {
         this.endDate = endDate;
     }
 }
