@@ -17,11 +17,7 @@ public class TrafficXMLParser {
 
     private static final String ns = null;
     LinkedList<TrafficDataModel> trafficDataList = new LinkedList<>();
-    String dateUserInput;
 
-    public TrafficXMLParser(String dateUserInput) {
-        this.dateUserInput = dateUserInput;
-    }
 
     public LinkedList<TrafficDataModel> parse(String string) throws XmlPullParserException, IOException {
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();

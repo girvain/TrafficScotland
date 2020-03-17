@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class TrafficXMLParserTest {
 
     String currentIncedents = "";
-    TrafficXMLParser trafficXMLParser = new TrafficXMLParser("01/01/2020");
+    TrafficXMLParser trafficXMLParser = new TrafficXMLParser();
     String testData = "Start Date: Wednesday, 01 January 2020 - 00:00<br />End Date: Tuesday, 31 March 2020 - 00:00<br />Delay Information: No reported delay.";
 
     @Test

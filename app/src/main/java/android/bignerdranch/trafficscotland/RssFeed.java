@@ -1,5 +1,6 @@
 package android.bignerdranch.trafficscotland;
 
+import android.icu.text.Edits;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
@@ -20,24 +21,33 @@ import java.io.StringReader;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 public class RssFeed extends AsyncTask<String, String, String> {
 
     private WeakReference<TextView> mTextView;
-
     private WeakReference<RecyclerView> mRecyclerView;
 
+    private LinkedList<TrafficDataModel> mTrafficDataList;
     private String result = "";
     private String dateUserInput = "";
+    private DateConvertor dateConvertor; // used to parse userInputDate to Calendar object
 
     RssFeed(TextView textView) {
         mTextView = new WeakReference<>(textView);
     }
 
+    RssFeed() {
+        // This is for test use only
+    }
+
     RssFeed(RecyclerView recyclerView) {
         mRecyclerView = new WeakReference<>(recyclerView);
+        dateConvertor = new DateConvertor();
     }
 
 
@@ -78,7 +88,7 @@ public class RssFeed extends AsyncTask<String, String, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         String parsedString = "";
-        LinkedList<TrafficDataModel> mTrafficDataList = new LinkedList<>();
+        mTrafficDataList = new LinkedList<>();
 
 //        try {
 //            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -105,9 +115,12 @@ public class RssFeed extends AsyncTask<String, String, String> {
 //            Log.e("PARSE FAIL", "Gavin Ross");
 //        }
 
-        TrafficXMLParser trafficXMLParser = new TrafficXMLParser(dateUserInput);
+        TrafficXMLParser trafficXMLParser = new TrafficXMLParser();
         try {
             mTrafficDataList = trafficXMLParser.parse(s);
+
+            // Filter the data by the user's input date
+            mTrafficDataList = filterByDate(dateConvertor.convertStringToDate(dateUserInput), mTrafficDataList);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -125,5 +138,19 @@ public class RssFeed extends AsyncTask<String, String, String> {
 
         //mTextView.get().setText(parsedString);
 
+    }
+
+    public LinkedList<TrafficDataModel> filterByDate(Calendar date, LinkedList list) {
+        LinkedList<TrafficDataModel> filteredTrafficDataList = new LinkedList<>();
+        Iterator<TrafficDataModel> dataModelIterator = list.iterator();
+        while (dataModelIterator.hasNext()) {
+            TrafficDataModel trafficDataModel = dataModelIterator.next();
+            // if the date is in the range of the trafficData's start and end date's range
+            if (date.compareTo(trafficDataModel.getStartDate()) >= 0 &&
+                    date.compareTo(trafficDataModel.getEndDate()) <= 0) {
+                filteredTrafficDataList.add(trafficDataModel);
+            }
+        }
+        return filteredTrafficDataList;
     }
 }

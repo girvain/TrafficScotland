@@ -40,11 +40,15 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.Traffi
 
     class TrafficViewDataHolder extends RecyclerView.ViewHolder {
         public TextView titleItemView;
+        public TextView startDateItemView;
+        public TextView endDateItemView;
         final WordListAdapter mAdapter;
 
         public TrafficViewDataHolder(@NonNull View itemView, WordListAdapter adapter) {
             super(itemView);
             titleItemView = itemView.findViewById(R.id.title);
+            startDateItemView = itemView.findViewById(R.id.start_date);
+            endDateItemView = itemView.findViewById(R.id.end_date);
             this.mAdapter = adapter;
         }
     }
@@ -71,6 +75,8 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.Traffi
     public void onBindViewHolder(@NonNull WordListAdapter.TrafficViewDataHolder holder, int position) {
         TrafficDataModel mCurrent = mTrafficDataList.get(position);
         holder.titleItemView.setText(mCurrent.getTitle());
+        holder.startDateItemView.setText(mCurrent.getStartDateAsString());
+        holder.endDateItemView.setText(mCurrent.getEndDateAsString());
     }
 
     @Override
