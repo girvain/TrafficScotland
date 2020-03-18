@@ -4,9 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
@@ -40,6 +42,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.Traffi
 
     class TrafficViewDataHolder extends RecyclerView.ViewHolder {
         public TextView titleItemView;
+        public ImageView iconImageView;
         public TextView startDateItemView;
         public TextView endDateItemView;
         final WordListAdapter mAdapter;
@@ -47,11 +50,14 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.Traffi
         public TrafficViewDataHolder(@NonNull View itemView, WordListAdapter adapter) {
             super(itemView);
             titleItemView = itemView.findViewById(R.id.title);
+            iconImageView = itemView.findViewById(R.id.imageView);
+            iconImageView.setImageResource(R.drawable.green);
             startDateItemView = itemView.findViewById(R.id.start_date);
             endDateItemView = itemView.findViewById(R.id.end_date);
             this.mAdapter = adapter;
         }
     }
+
 
 //    @Override
 //    public WordListAdapter.WordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -77,6 +83,25 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.Traffi
         holder.titleItemView.setText(mCurrent.getTitle());
         holder.startDateItemView.setText(mCurrent.getStartDateAsString());
         holder.endDateItemView.setText(mCurrent.getEndDateAsString());
+        setTrafficIcon(holder.iconImageView, mCurrent);
+    }
+
+    /**
+     * Method to set the Image resources of the imageView's on each item in the RecyclerView.
+     * Sets the images to green for works that only last a day, amber for a week and red for any
+     * longer.
+     * @param view
+     * @param tdm
+     */
+    public void setTrafficIcon(ImageView view, TrafficDataModel tdm) {
+        if (tdm.getRoadworksLength() < 2) {
+            view.setImageResource(R.drawable.green);
+        } else if (tdm.getRoadworksLength() < 8) {
+            view.setImageResource(R.drawable.orange);
+        }
+        else {
+            view.setImageResource(R.drawable.red);
+        }
     }
 
     @Override

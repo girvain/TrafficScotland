@@ -1,8 +1,22 @@
 package android.bignerdranch.trafficscotland;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class DateConvertor {
+
+    /**
+     * Calculates the number of days between a two dates
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public long numberOfDays(Calendar startDate, Calendar endDate) {
+        long end = endDate.getTimeInMillis();
+        long start = startDate.getTimeInMillis();
+        // add 1 for the start date
+        return TimeUnit.MILLISECONDS.toDays(Math.abs(end - start)) + 1;
+    }
 
     /**
      * Converts the Rss feed results data format to a Calendar object. Must have only one date

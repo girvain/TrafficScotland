@@ -12,6 +12,15 @@ public class TrafficDataModel {
     private Calendar endDate;
     private String startDateAsString;
     private String endDateAsString;
+    private long roadworksLength;
+
+    public long getRoadworksLength() {
+        return roadworksLength;
+    }
+
+    public void setRoadworksLength(long roadworksLength) {
+        this.roadworksLength = roadworksLength;
+    }
 
     public String getStartDateAsString() {
         return startDateAsString;

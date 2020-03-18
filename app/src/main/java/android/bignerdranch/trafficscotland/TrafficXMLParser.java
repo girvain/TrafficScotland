@@ -17,7 +17,11 @@ public class TrafficXMLParser {
 
     private static final String ns = null;
     LinkedList<TrafficDataModel> trafficDataList = new LinkedList<>();
+    private DateConvertor dateConvertor;
 
+    public TrafficXMLParser() {
+        dateConvertor = new DateConvertor();
+    }
 
     public LinkedList<TrafficDataModel> parse(String string) throws XmlPullParserException, IOException {
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -59,6 +63,8 @@ public class TrafficXMLParser {
                             // Convert long date to short version and add to trafficDataObj (String)
                             trafficDataObj.setStartDateAsString(convertLongDateToShort(startAndEndDates[0]));
                             trafficDataObj.setEndDateAsString(convertLongDateToShort(startAndEndDates[1]));
+                            // set the length of time the roadworks will last
+                            trafficDataObj.setRoadworksLength(dateConvertor.numberOfDays(trafficDataObj.getStartDate(), trafficDataObj.getEndDate()));
                         }
 //                        Log.v("startDate", trafficDataObj.getStartDate());
 //                        Log.v("endDate", trafficDataObj.getEndDate());
