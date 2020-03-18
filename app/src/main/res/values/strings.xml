@@ -5,4 +5,9 @@
     <string name="date">Date</string>
     <string name="start_date">Start Date:</string>
     <string name="end_date">End Date:</string>
+    <string name="current_roadworks">Roadworks</string>
+    <string name="planned_roadworks">Planned Roadworks</string>
+    <string name="current_incidents">Current Incidents</string>
+    <string name="enter_a_road_or_date">Enter a Road or Date?</string>
+    <string name="none">None</string>
 </resources>

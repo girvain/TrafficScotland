@@ -10,49 +10,48 @@
         android:id="@+id/recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/date_input"
+        app:layout_constraintBottom_toTopOf="@+id/radio_butt_group"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/get_feed_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="12dp"
+        android:background="@color/colorPrimary"
         android:text="@string/dateSelectBtn"
+        android:textColor="@color/primaryTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/primaryTextColor"
-        android:layout_margin="12dp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/date_input"
+        android:id="@+id/user_input"
         android:layout_width="0dp"
         android:layout_height="47dp"
+        android:layout_margin="8dp"
         android:ems="10"
-        android:hint="Enter a Road or Date?"
-        android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/radio_butt_group"
+        android:hint="@string/enter_a_road_or_date"
+        android:inputType="text"
+        android:enabled="false"
+        app:layout_constraintBottom_toTopOf="@+id/radio_butt_group_rdworks"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        android:layout_margin="12dp"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:autofillHints="" />
 
     <RadioGroup
         android:id="@+id/radio_butt_group"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/get_feed_btn"
+        app:layout_constraintBottom_toTopOf="@+id/user_input"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <RadioButton
@@ -66,6 +65,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/road" />
+
+        <RadioButton
+            android:id="@+id/none_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/none" />
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radio_butt_group_rdworks"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/get_feed_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/current_roadworks_radio_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/current_roadworks" />
+
+        <RadioButton
+            android:id="@+id/planned_roadworks_radio_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/planned_roadworks" />
+
+        <RadioButton
+            android:id="@+id/current_incedents_radio_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_incidents" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

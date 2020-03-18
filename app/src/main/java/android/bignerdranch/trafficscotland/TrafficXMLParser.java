@@ -50,14 +50,16 @@ public class TrafficXMLParser {
                         eventType = xpp.next();
                         trafficDataObj.setDescription(xpp.getText());
                         // extract the long versions of start and end date from description
+                        // if it's the current incedents feed, theres no dates so it returns null
                         String[] startAndEndDates = getDates(xpp.getText());
-                        // convert each one to Calendar object and add to trafficDataObj
-                        trafficDataObj.setStartDate(convertRssDateToCalendarObj(startAndEndDates[0]));
-                        trafficDataObj.setEndDate(convertRssDateToCalendarObj(startAndEndDates[1]));
-                        // Convert long date to short version and add to trafficDataObj (String)
-                        trafficDataObj.setStartDateAsString(convertLongDateToShort(startAndEndDates[0]));
-                        trafficDataObj.setEndDateAsString(convertLongDateToShort(startAndEndDates[1]));
-
+                        if (startAndEndDates != null) {
+                            // convert each one to Calendar object and add to trafficDataObj
+                            trafficDataObj.setStartDate(convertRssDateToCalendarObj(startAndEndDates[0]));
+                            trafficDataObj.setEndDate(convertRssDateToCalendarObj(startAndEndDates[1]));
+                            // Convert long date to short version and add to trafficDataObj (String)
+                            trafficDataObj.setStartDateAsString(convertLongDateToShort(startAndEndDates[0]));
+                            trafficDataObj.setEndDateAsString(convertLongDateToShort(startAndEndDates[1]));
+                        }
 //                        Log.v("startDate", trafficDataObj.getStartDate());
 //                        Log.v("endDate", trafficDataObj.getEndDate());
 
