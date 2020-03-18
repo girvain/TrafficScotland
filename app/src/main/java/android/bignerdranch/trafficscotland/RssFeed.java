@@ -2,6 +2,8 @@ package android.bignerdranch.trafficscotland;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +25,7 @@ public class RssFeed extends AsyncTask<String, String, String> {
 
     private WeakReference<TextView> mTextView;
     private WeakReference<RecyclerView> mRecyclerView;
+    private WeakReference<ProgressBar> mProgressBar;
 
     private LinkedList<TrafficDataModel> mTrafficDataList;
     private String result = "";
@@ -38,8 +41,9 @@ public class RssFeed extends AsyncTask<String, String, String> {
         // This is for test use only
     }
 
-    RssFeed(RecyclerView recyclerView) {
+    RssFeed(RecyclerView recyclerView, ProgressBar progressBar) {
         mRecyclerView = new WeakReference<>(recyclerView);
+        mProgressBar = new WeakReference<>(progressBar);
         dateConvertor = new DateConvertor();
     }
 
@@ -86,35 +90,16 @@ public class RssFeed extends AsyncTask<String, String, String> {
     }
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mProgressBar.get().setVisibility(View.VISIBLE);
+    }
+
+    @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         String parsedString = "";
         mTrafficDataList = new LinkedList<>();
-
-//        try {
-//            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-//            factory.setNamespaceAware(true);
-//            XmlPullParser xpp = factory.newPullParser();
-//
-//            xpp.setInput(new StringReader(s));
-//            int eventType = xpp.getEventType();
-//            while (eventType != XmlPullParser.END_DOCUMENT) {
-//                if (eventType == XmlPullParser.START_DOCUMENT) {
-//
-//                } else if (eventType == XmlPullParser.START_TAG) {
-//
-//                } else if (eventType == XmlPullParser.END_TAG) {
-//
-//                } else if (eventType == XmlPullParser.TEXT) {
-//
-//                    parsedString += xpp.getText();
-//                }
-//                eventType = xpp.next();
-//            }
-//            System.out.println("End document");
-//        } catch (Exception e) {
-//            Log.e("PARSE FAIL", "Gavin Ross");
-//        }
 
         TrafficXMLParser trafficXMLParser = new TrafficXMLParser();
         try {
@@ -144,6 +129,7 @@ public class RssFeed extends AsyncTask<String, String, String> {
 
         //mTextView.get().setText(parsedString);
 
+        mProgressBar.get().setVisibility(View.GONE);
     }
 
     public LinkedList<TrafficDataModel> filterByDate(Calendar date, LinkedList list) {

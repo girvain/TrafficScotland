@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private LinkedList<TrafficDataModel> mTrafficDataList = new LinkedList<>();
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
+    private ProgressBar mProgressBar;
 
     private String currentRoadworksUrl = "https://trafficscotland.org/rss/feeds/roadworks.aspx";
     private String plannedRoadworksUrl = "https://trafficscotland.org/rss/feeds/plannedroadworks.aspx";
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         currentRoadworksSelector = findViewById(R.id.current_roadworks_radio_btn);
         plannedRoadworksSelector = findViewById(R.id.planned_roadworks_radio_btn);
         currentIncidentsSelector = findViewById(R.id.current_incedents_radio_btn);
+        mProgressBar = findViewById(R.id.progressBar);
         userInput = findViewById(R.id.user_input);
 
 
@@ -110,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // check if an options has been selected for selectOption1
                 if (selectOption1.isEmpty()) {
-                    new RssFeed(mRecyclerView).execute(selectOption2);
+                    new RssFeed(mRecyclerView, mProgressBar).execute(selectOption2);
                 } else {
-                    new RssFeed(mRecyclerView).execute(selectOption2, selectOption1, handlerSelection);
+                    new RssFeed(mRecyclerView, mProgressBar).execute(selectOption2, selectOption1, handlerSelection);
                 }
 
                 // close the keypad on button presses
