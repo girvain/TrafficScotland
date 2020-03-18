@@ -125,9 +125,8 @@ public class RssFeed extends AsyncTask<String, String, String> {
         // Connect the adapter with the RecyclerView.
         mRecyclerView.get().setAdapter(mAdapter);
         // Give the RecyclerView a default layout manager.
-        mRecyclerView.get().setLayoutManager(new LinearLayoutManager(mRecyclerView.get().getContext()));
+        //mRecyclerView.get().setLayoutManager(new LinearLayoutManager(mRecyclerView.get().getContext()));
 
-        //mTextView.get().setText(parsedString);
 
         mProgressBar.get().setVisibility(View.GONE);
     }

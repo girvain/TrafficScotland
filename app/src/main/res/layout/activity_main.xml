@@ -34,14 +34,14 @@
         android:layout_width="0dp"
         android:layout_height="47dp"
         android:layout_margin="8dp"
+        android:autofillHints=""
         android:ems="10"
+        android:enabled="false"
         android:hint="@string/enter_a_road_or_date"
         android:inputType="text"
-        android:enabled="false"
         app:layout_constraintBottom_toTopOf="@+id/radio_butt_group_rdworks"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:autofillHints="" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <RadioGroup
         android:id="@+id/radio_butt_group"

@@ -1,11 +1,14 @@
 package android.bignerdranch.trafficscotland;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -32,11 +35,50 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
     private ProgressBar mProgressBar;
+    private Parcelable mListState;
 
     private String currentRoadworksUrl = "https://trafficscotland.org/rss/feeds/roadworks.aspx";
     private String plannedRoadworksUrl = "https://trafficscotland.org/rss/feeds/plannedroadworks.aspx";
     final String currentIncedentsUrl = "https://trafficscotland.org/rss/feeds/currentincidents.aspx";
     private String dateAsString = "";
+
+
+    // temp trial
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("user_input", userInput.getText().toString());
+        if (outState != null) {
+            mListState = mLayoutManager.onSaveInstanceState();
+            outState.putParcelable("traffic_data_state", mListState);
+            //outState.putParcelable("traffic_data", mTrafficDataList);
+        }
+    }
+
+    @Override
+    // This is required because the default state of user input is disabled on Activity
+    // creation, so when a rotation happens with state the None radioButton not selected,
+    // it keeps the userInput enabled with the users text input.
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (!noneSelector.isChecked()) {
+            userInput.setEnabled(true);
+        }
+        // restore the recyclerView data
+        if (savedInstanceState != null) {
+            mListState = savedInstanceState.getParcelable("traffic_data_state");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mListState != null) {
+            mLayoutManager.onRestoreInstanceState(mListState);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +110,9 @@ public class MainActivity extends AppCompatActivity {
 //        mAdapter = new WordListAdapter(this, mTrafficDataList);
 //        // Connect the adapter with the RecyclerView.
 //        mRecyclerView.setAdapter(mAdapter);
-//        // Give the RecyclerView a default layout manager.
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // Give the RecyclerView a default layout manager.
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         final Calendar newCalendar = Calendar.getInstance();
         final DatePickerDialog StartTime = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
