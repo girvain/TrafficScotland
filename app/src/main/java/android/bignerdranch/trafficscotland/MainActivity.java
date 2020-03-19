@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -17,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -30,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton noneSelector;
     private Button getFeed;
     private TextView userInput;
-    //private LinkedList<String> mWordList = new LinkedList<>();
-    private LinkedList<TrafficDataModel> mTrafficDataList = new LinkedList<>();
+    private ArrayList<TrafficDataModel> mTrafficDataList = new ArrayList<TrafficDataModel>();
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
     private ProgressBar mProgressBar;
     private Parcelable mListState;
 
@@ -43,47 +46,25 @@ public class MainActivity extends AppCompatActivity {
     private String dateAsString = "";
 
 
-    // temp trial
-    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("user_input", userInput.getText().toString());
-        if (outState != null) {
-            mListState = mLayoutManager.onSaveInstanceState();
-            outState.putParcelable("traffic_data_state", mListState);
-            //outState.putParcelable("traffic_data", mTrafficDataList);
-        }
+
+        mListState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable("traffic_data_state", mListState);
+        outState.putParcelableArrayList("traffic_data", mTrafficDataList);
+        Log.v("SAVE", "onSaveInstanceState");
+
     }
 
-    @Override
-    // This is required because the default state of user input is disabled on Activity
-    // creation, so when a rotation happens with state the None radioButton not selected,
-    // it keeps the userInput enabled with the users text input.
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (!noneSelector.isChecked()) {
-            userInput.setEnabled(true);
-        }
-        // restore the recyclerView data
-        if (savedInstanceState != null) {
-            mListState = savedInstanceState.getParcelable("traffic_data_state");
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mListState != null) {
-            mLayoutManager.onRestoreInstanceState(mListState);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.v("GAV", "why is this fucked");
 
         getFeed = findViewById(R.id.get_feed_btn);
         dateSelector = findViewById(R.id.date_radio_btn);
@@ -96,23 +77,39 @@ public class MainActivity extends AppCompatActivity {
         userInput = findViewById(R.id.user_input);
 
 
-//        // Create list data for recycler view
+////        // Create list data for recycler view TEST DATA
 //        for (int i = 0; i < 20; i++) {
 //            //mWordList.addLast("Word " + i);
 //            TrafficDataModel trafficDataModel = new TrafficDataModel();
 //            trafficDataModel.setTitle("M74 Ardrishaig");
-//            mTrafficDataList.addLast(trafficDataModel);
+//            mTrafficDataList.add(trafficDataModel);
 //        }
-//
-//        // Get a handle to the RecyclerView.
+////
+
+        if (savedInstanceState != null) {
+            // This is required because the default state of user input is disabled on Activity
+            // creation, so when a rotation happens with state the None radioButton not selected,
+            // it keeps the userInput enabled with the users text input.
+            if (!noneSelector.isChecked()) {
+                userInput.setEnabled(true);
+            }
+            // This is to collect the parcelized traffic data in the arrayList and set it up
+            // before the activity is recreated
+            mListState = savedInstanceState.getParcelable("traffic_data_state");
+            mTrafficDataList = savedInstanceState.getParcelableArrayList("traffic_data");
+            //mRecyclerView.getAdapter().notifyDataSetChanged();
+        }
+
+        // Get a handle to the RecyclerView.
         mRecyclerView = findViewById(R.id.recyclerview);
-//        // Create an adapter and supply the data to be displayed.
-//        mAdapter = new WordListAdapter(this, mTrafficDataList);
-//        // Connect the adapter with the RecyclerView.
-//        mRecyclerView.setAdapter(mAdapter);
+        // Create an adapter and supply the data to be displayed.
+        mAdapter = new WordListAdapter(this, mTrafficDataList);
+
         // Give the RecyclerView a default layout manager.
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        // Connect the adapter with the RecyclerView.
+        mRecyclerView.setAdapter(mAdapter);
 
         final Calendar newCalendar = Calendar.getInstance();
         final DatePickerDialog StartTime = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -156,9 +153,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // check if an options has been selected for selectOption1
                 if (selectOption1.isEmpty()) {
-                    new RssFeed(mRecyclerView, mProgressBar).execute(selectOption2);
+                    new RssFeed(mRecyclerView, mProgressBar, mTrafficDataList).execute(selectOption2);
                 } else {
-                    new RssFeed(mRecyclerView, mProgressBar).execute(selectOption2, selectOption1, handlerSelection);
+                    new RssFeed(mRecyclerView, mProgressBar, mTrafficDataList).execute(selectOption2, selectOption1, handlerSelection);
                 }
 
                 // close the keypad on button presses

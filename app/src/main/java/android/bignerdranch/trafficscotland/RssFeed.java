@@ -17,17 +17,19 @@ import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class RssFeed extends AsyncTask<String, String, String> {
+public class RssFeed extends AsyncTask<String, String, ArrayList<TrafficDataModel>> {
 
     private WeakReference<TextView> mTextView;
     private WeakReference<RecyclerView> mRecyclerView;
     private WeakReference<ProgressBar> mProgressBar;
 
-    private LinkedList<TrafficDataModel> mTrafficDataList;
+    private ArrayList<TrafficDataModel> mTrafficDataList;
+
     private String result = "";
     private String userInput = "";
     private String handlerSelection = "";
@@ -41,15 +43,16 @@ public class RssFeed extends AsyncTask<String, String, String> {
         // This is for test use only
     }
 
-    RssFeed(RecyclerView recyclerView, ProgressBar progressBar) {
+    RssFeed(RecyclerView recyclerView, ProgressBar progressBar, ArrayList<TrafficDataModel> trafficDataList) {
         mRecyclerView = new WeakReference<>(recyclerView);
         mProgressBar = new WeakReference<>(progressBar);
         dateConvertor = new DateConvertor();
+        this.mTrafficDataList = trafficDataList;
     }
 
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected ArrayList doInBackground(String... strings) {
         URL aurl;
         URLConnection yc;
         BufferedReader in = null;
@@ -86,7 +89,26 @@ public class RssFeed extends AsyncTask<String, String, String> {
         {
             Log.e("MyTag", ae.toString());
         }
-        return result;
+
+        ArrayList<TrafficDataModel> newTrafficData = new ArrayList<TrafficDataModel>(); // assigned this in contructor
+        TrafficXMLParser trafficXMLParser = new TrafficXMLParser();
+        try {
+            newTrafficData = trafficXMLParser.parse(result);
+            // if there is a present input from the user, filter the data
+            if (!userInput.isEmpty()) {
+                // select the right filter method from accessing the handlerSelection value
+                if (handlerSelection.equals("d")) {
+                    newTrafficData = filterByDate(dateConvertor.convertStringToDate(userInput), newTrafficData);
+                } else if (handlerSelection.equals("r")) {
+                    newTrafficData = filterByRoad(userInput, newTrafficData);
+                }
+            }
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return newTrafficData;
     }
 
     @Override
@@ -96,43 +118,51 @@ public class RssFeed extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+    protected void onPostExecute(ArrayList newTrafficData) {
+        super.onPostExecute(newTrafficData);
         String parsedString = "";
-        mTrafficDataList = new LinkedList<>();
+        //mTrafficDataList = new ArrayList<>(); // assigned this in contructor
 
-        TrafficXMLParser trafficXMLParser = new TrafficXMLParser();
-        try {
-            mTrafficDataList = trafficXMLParser.parse(s);
-            // if there is a present input from the user, filter the data
-            if (!userInput.isEmpty()) {
-                // select the right filter method from accessing the handlerSelection value
-                if (handlerSelection.equals("d")) {
-                    mTrafficDataList = filterByDate(dateConvertor.convertStringToDate(userInput), mTrafficDataList);
-                } else if (handlerSelection.equals("r")) {
-                    mTrafficDataList = filterByRoad(userInput, mTrafficDataList);
-                }
-            }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        TrafficXMLParser trafficXMLParser = new TrafficXMLParser();
+//        try {
+//            mTrafficDataList = trafficXMLParser.parse(s);
+//            // if there is a present input from the user, filter the data
+//            if (!userInput.isEmpty()) {
+//                // select the right filter method from accessing the handlerSelection value
+//                if (handlerSelection.equals("d")) {
+//                    mTrafficDataList = filterByDate(dateConvertor.convertStringToDate(userInput), mTrafficDataList);
+//                } else if (handlerSelection.equals("r")) {
+//                    mTrafficDataList = filterByRoad(userInput, mTrafficDataList);
+//                }
+//            }
+//        } catch (XmlPullParserException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
-        // Create an adapter and supply the data to be displayed.
-        WordListAdapter mAdapter = new WordListAdapter(mRecyclerView.get().getContext(), mTrafficDataList);
-        // Connect the adapter with the RecyclerView.
-        mRecyclerView.get().setAdapter(mAdapter);
-        // Give the RecyclerView a default layout manager.
-        //mRecyclerView.get().setLayoutManager(new LinearLayoutManager(mRecyclerView.get().getContext()));
 
+
+//        // Create an adapter and supply the data to be displayed.
+//        WordListAdapter mAdapter = new WordListAdapter(mRecyclerView.get().getContext(), mTrafficDataList);
+//        // Connect the adapter with the RecyclerView.
+//        mRecyclerView.get().setAdapter(mAdapter);
+//        // Give the RecyclerView a default layout manager.
+//        mRecyclerView.get().setLayoutManager(new LinearLayoutManager(mRecyclerView.get().getContext()));
+//        mRecyclerView.get().getAdapter().
+
+
+        this.mTrafficDataList.clear();
+        this.mTrafficDataList.addAll(newTrafficData);
+
+        mRecyclerView.get().getAdapter().notifyDataSetChanged();
 
         mProgressBar.get().setVisibility(View.GONE);
     }
 
-    public LinkedList<TrafficDataModel> filterByDate(Calendar date, LinkedList list) {
-        LinkedList<TrafficDataModel> filteredTrafficDataList = new LinkedList<>();
+    public ArrayList<TrafficDataModel> filterByDate(Calendar date, ArrayList list) {
+        ArrayList<TrafficDataModel> filteredTrafficDataList = new ArrayList<>();
         Iterator<TrafficDataModel> dataModelIterator = list.iterator();
         while (dataModelIterator.hasNext()) {
             TrafficDataModel trafficDataModel = dataModelIterator.next();
@@ -145,8 +175,8 @@ public class RssFeed extends AsyncTask<String, String, String> {
         return filteredTrafficDataList;
     }
 
-    public LinkedList<TrafficDataModel> filterByRoad(String road, LinkedList list) {
-        LinkedList<TrafficDataModel> filteredTrafficDataList = new LinkedList<>();
+    public ArrayList<TrafficDataModel> filterByRoad(String road, ArrayList list) {
+        ArrayList<TrafficDataModel> filteredTrafficDataList = new ArrayList<>();
         Iterator<TrafficDataModel> dataModelIterator = list.iterator();
         while (dataModelIterator.hasNext()) {
             TrafficDataModel trafficDataModel = dataModelIterator.next();

@@ -1,5 +1,6 @@
 package android.bignerdranch.trafficscotland;
 
+import android.os.Parcel;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -16,14 +17,14 @@ import java.util.LinkedList;
 public class TrafficXMLParser {
 
     private static final String ns = null;
-    LinkedList<TrafficDataModel> trafficDataList = new LinkedList<>();
+    ArrayList<TrafficDataModel> trafficDataList = new ArrayList<>();
     private DateConvertor dateConvertor;
 
     public TrafficXMLParser() {
         dateConvertor = new DateConvertor();
     }
 
-    public LinkedList<TrafficDataModel> parse(String string) throws XmlPullParserException, IOException {
+    public ArrayList<TrafficDataModel> parse(String string) throws XmlPullParserException, IOException {
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         factory.setNamespaceAware(true);
         XmlPullParser xpp = factory.newPullParser();

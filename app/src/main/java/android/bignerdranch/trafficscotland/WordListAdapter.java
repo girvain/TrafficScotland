@@ -11,19 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.TrafficViewDataHolder> {
 
     //private final LinkedList<String> mWordList; // passed in from mainActivity
-    private LinkedList<TrafficDataModel> mTrafficDataList;
+    private ArrayList<TrafficDataModel> mTrafficDataList;
     private LayoutInflater mInflater;
 
 //    public WordListAdapter(Context context, LinkedList<String> mWordList) {
 //        mInflater = LayoutInflater.from(context);
 //        this.mWordList = mWordList;
 //    }
-    public WordListAdapter(Context context, LinkedList<TrafficDataModel> mTrafficDataList) {
+    public WordListAdapter(Context context, ArrayList<TrafficDataModel> mTrafficDataList) {
         mInflater = LayoutInflater.from(context);
         this.mTrafficDataList = mTrafficDataList;
     }
