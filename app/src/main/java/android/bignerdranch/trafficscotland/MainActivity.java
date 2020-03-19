@@ -59,6 +59,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+//    @Override
+
+//    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        if (!noneSelector.isChecked()) {
+//            userInput.setEnabled(true);
+//        }
+//        Log.v("onRestore", savedInstanceState.getString("user_input").toString());
+//        Log.v("onRestore", savedInstanceState.getParcelableArrayList("traffic_data").toString());
+//        // restore the recyclerView data
+//
+//        mListState = savedInstanceState.getParcelable("traffic_data_state");
+//        mTrafficDataList = savedInstanceState.getParcelableArrayList("traffic_data");
+//        mRecyclerView.getAdapter().notifyDataSetChanged();
+//        Log.v("SAVE", "onRestoreInstanceState");
+//    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

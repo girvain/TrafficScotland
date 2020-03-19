@@ -10,4 +10,13 @@
     <string name="current_incidents">Current Incidents</string>
     <string name="enter_a_road_or_date">Enter a Road or Date?</string>
     <string name="none">None</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="traffic_act_road_label">Road:</string>
+    <string name="traffic_act_link_label">Link:</string>
+    <string name="geo_co_ordinates">Geo Co-Ordinates</string>
+    <string name="publish_date">Publish Date:</string>
+    <string name="roadworks_length_in_days">Roadworks length in days:</string>
+    <string name="description">Description:</string>
 </resources>
