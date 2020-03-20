@@ -53,7 +53,7 @@ public class TrafficXMLParser {
                     }
                     if (xpp.getName().equals("description")) {
                         eventType = xpp.next();
-                        trafficDataObj.setDescription(xpp.getText());
+                        trafficDataObj.setDescription(getDescription(xpp.getText()));// use the getDesc to extract
                         // extract the long versions of start and end date from description
                         // if it's the current incedents feed, theres no dates so it returns null
                         String[] startAndEndDates = getDates(xpp.getText());
@@ -82,7 +82,6 @@ public class TrafficXMLParser {
                         eventType = xpp.nextTag(); // </title> end tag
                         eventType = xpp.nextTag(); // <description>
                         //Log.v("GAVINROSS", xpp.getName());
-
                     }
                     if (xpp.getName().equals("point")) {
                         eventType = xpp.next();
@@ -91,7 +90,18 @@ public class TrafficXMLParser {
                         eventType = xpp.nextTag(); // </title> end tag
                         eventType = xpp.nextTag(); // <description>
                         //Log.v("GAVINROSS", xpp.getName());
-
+                    }
+                    eventType = xpp.nextTag(); // </title> end tag
+                    eventType = xpp.nextTag(); // <description>
+                    eventType = xpp.nextTag(); // </title> end tag
+                    eventType = xpp.nextTag(); // <description>
+                    if (xpp.getName().equals("pubDate")) {
+                        eventType = xpp.next();
+                        trafficDataObj.setPubDate(dateConvertor.convertLongDateToShort(xpp.getText()));
+                        Log.v("GAVINROSS", xpp.getText());
+                        eventType = xpp.nextTag(); // </title> end tag
+                        eventType = xpp.nextTag(); // <description>
+                        //Log.v("GAVINROSS", xpp.getName());
                     }
                     trafficDataList.add(trafficDataObj);
                 }
@@ -125,6 +135,15 @@ public class TrafficXMLParser {
             return results;
         }
 
+    }
+
+    public String getDescription(String desc) {
+        int result = desc.lastIndexOf("<br />");
+        if (result == -1) {
+            return desc;
+        } else {
+            return desc.substring(result+6, desc.length());
+        }
     }
 
     /**

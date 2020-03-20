@@ -12,7 +12,6 @@
         android:layout_margin="5dp"
         android:background="#FFFFFF"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -38,13 +37,13 @@
                 android:id="@+id/traffic_act_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/word_content"
                 android:visibility="visible" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -56,6 +55,7 @@
 
             <TextView
                 android:id="@+id/traffic_act_desc"
+                style="@style/word_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -75,6 +75,7 @@
 
             <TextView
                 android:id="@+id/traffic_act_start_date"
+                style="@style/word_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -89,6 +90,7 @@
 
             <TextView
                 android:id="@+id/traffic_act_end_date"
+                style="@style/word_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -109,6 +111,7 @@
 
             <TextView
                 android:id="@+id/traffic_act_link"
+                style="@style/word_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -128,6 +131,7 @@
 
             <TextView
                 android:id="@+id/traffic_act_geo"
+                style="@style/word_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -147,6 +151,7 @@
 
             <TextView
                 android:id="@+id/traffic_act_pub"
+                style="@style/word_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -166,6 +171,7 @@
 
             <TextView
                 android:id="@+id/traffic_act_road_ln"
+                style="@style/word_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

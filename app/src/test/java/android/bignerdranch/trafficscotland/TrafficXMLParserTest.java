@@ -27,6 +27,23 @@ public class TrafficXMLParserTest {
     }
 
     @Test
+    public void getDescriptionRoadworks() {
+        String testData = "Start Date: Wednesday, 01 January 2020 - 00:00<br />End Date: Tuesday, 31 March 2020 - 00:00<br />Delay Information: No reported delay.";
+        assertEquals("Delay Information: No reported delay.", trafficXMLParser.getDescription(testData));
+    }
+    @Test
+    public void getDescriptionIncidents() {
+        String testData = "Drivers in Dumfries and Galloway are advised to use caution due to low temperatures affecting driving conditions.";
+        assertEquals(testData, trafficXMLParser.getDescription(testData));
+    }
+
+    @Test
+    public void getDescriptionPlannedRd() {
+        String testData = "Start Date: Friday, 20 March 2020 - 00:00<br />End Date: Friday, 20 March 2020 - 00:00<br />Works: Filter Drain Traffic Management: No Obstruction on Carriageway or Footway.";
+        assertEquals("Works: Filter Drain Traffic Management: No Obstruction on Carriageway or Footway.", trafficXMLParser.getDescription(testData));
+    }
+
+    @Test
     public void getDatesWithNoDelayInfo() {
         String testData2 = "Start Date: Wednesday, 12 February 2020 - 00:00<br />End Date: Friday, 20 March 2020 - 00:00";
         assertEquals("Wednesday, 12 February 2020 - 00:00", trafficXMLParser.getDates(testData2)[0]);
