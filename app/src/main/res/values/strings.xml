@@ -18,4 +18,5 @@
     <string name="publish_date">Publish Date:</string>
     <string name="roadworks_length_in_days">Roadworks length in days:</string>
     <string name="description">Description:</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

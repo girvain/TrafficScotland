@@ -7,12 +7,50 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-public class TrafficDataActivity extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class TrafficDataActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private GoogleMap mMap;
+    Intent intent;
+    TrafficDataModel trafficDataModel;
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney, Australia, and move the camera.
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        double[] parsedMapPos = getLatAndLong(trafficDataModel.getGeorss());
+        LatLng mapPos = new LatLng(parsedMapPos[0], parsedMapPos[1]);
+        mMap.addMarker(new MarkerOptions().position(mapPos).title(trafficDataModel.getTitle()).visible(true));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mapPos));
+//        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mapPos, 14));
+
+
+    }
+
+    public double[] getLatAndLong(String latlng) {
+        String lat = latlng.substring(0, latlng.indexOf(' '));
+        String lng = latlng.substring(latlng.indexOf(' '));
+        double[] result = {Double.parseDouble(lat), Double.parseDouble(lng)};
+        return result;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_traffic_data2);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
+        mapFragment.getMapAsync(this);
 
         TextView title = findViewById(R.id.traffic_act_title);
         TextView description = findViewById(R.id.traffic_act_desc);
@@ -23,8 +61,8 @@ public class TrafficDataActivity extends AppCompatActivity {
         TextView pubDate = findViewById(R.id.traffic_act_pub);
         TextView roadworksLn = findViewById(R.id.traffic_act_road_ln);
 
-        Intent intent = getIntent();
-        TrafficDataModel trafficDataModel = intent.getParcelableExtra("TRAFFIC_DATA");
+        intent = getIntent();
+        trafficDataModel = intent.getParcelableExtra("TRAFFIC_DATA");
 
         title.setText(trafficDataModel.getTitle());
         Log.v("TrafficActivity", trafficDataModel.getTitle());
@@ -35,5 +73,8 @@ public class TrafficDataActivity extends AppCompatActivity {
         rssgeo.setText(trafficDataModel.getGeorss());
         pubDate.setText(trafficDataModel.getPubDate());
         roadworksLn.setText(trafficDataModel.getRoadworksLength()+""); // convert to string
+
+
+
     }
 }

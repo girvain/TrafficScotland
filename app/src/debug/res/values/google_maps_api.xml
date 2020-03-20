@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=12:1B:AE:99:43:55:D7:F5:27:B9:19:DE:DA:3D:AF:87:5A:AC:87:A4%3Bandroid.bignerdranch.trafficscotland
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    android.bignerdranch.trafficscotland
+
+    SHA-1 certificate fingerprint:
+    12:1B:AE:99:43:55:D7:F5:27:B9:19:DE:DA:3D:AF:87:5A:AC:87:A4
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDz-uilLO93_kc3GjzyBFnOYtPaWc4CIgQ</string>
+</resources>
