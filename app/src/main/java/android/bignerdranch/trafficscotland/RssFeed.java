@@ -27,6 +27,7 @@ public class RssFeed extends AsyncTask<String, String, ArrayList<TrafficDataMode
     private WeakReference<TextView> mTextView;
     private WeakReference<RecyclerView> mRecyclerView;
     private WeakReference<ProgressBar> mProgressBar;
+    private WeakReference<TextView> mErrorMessage;
 
     private ArrayList<TrafficDataModel> mTrafficDataList;
 
@@ -43,9 +44,10 @@ public class RssFeed extends AsyncTask<String, String, ArrayList<TrafficDataMode
         // This is for test use only
     }
 
-    RssFeed(RecyclerView recyclerView, ProgressBar progressBar, ArrayList<TrafficDataModel> trafficDataList) {
+    RssFeed(RecyclerView recyclerView, ProgressBar progressBar, ArrayList<TrafficDataModel> trafficDataList, TextView errorMessage) {
         mRecyclerView = new WeakReference<>(recyclerView);
         mProgressBar = new WeakReference<>(progressBar);
+        mErrorMessage = new WeakReference<>(errorMessage);
         dateConvertor = new DateConvertor();
         this.mTrafficDataList = trafficDataList;
     }
@@ -159,6 +161,12 @@ public class RssFeed extends AsyncTask<String, String, ArrayList<TrafficDataMode
         mRecyclerView.get().getAdapter().notifyDataSetChanged();
 
         mProgressBar.get().setVisibility(View.GONE);
+        // display an error message if there is no results
+        if (mTrafficDataList.isEmpty()) {
+            mErrorMessage.get().setVisibility(View.VISIBLE);
+        } else {
+            mErrorMessage.get().setVisibility(View.GONE);
+        }
     }
 
     public ArrayList<TrafficDataModel> filterByDate(Calendar date, ArrayList list) {

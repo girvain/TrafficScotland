@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton currentRoadworksSelector;
     private RadioButton plannedRoadworksSelector;
     private RadioButton noneSelector;
+    private TextView mErrorDisplay;
     private Button getFeed;
     private TextView userInput;
     private ArrayList<TrafficDataModel> mTrafficDataList = new ArrayList<TrafficDataModel>();
@@ -78,6 +79,23 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        Bundle outState = new Bundle();
+        outState.putString("user_input", userInput.getText().toString());
+
+        mListState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable("traffic_data_state", mListState);
+        outState.putParcelableArrayList("traffic_data", mTrafficDataList);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -87,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         dateSelector = findViewById(R.id.date_radio_btn);
         roadSelector = findViewById(R.id.road_radio_btn);
         noneSelector = findViewById(R.id.none_radio_button);
+        mErrorDisplay = findViewById(R.id.error_display);
         currentRoadworksSelector = findViewById(R.id.current_roadworks_radio_btn);
         plannedRoadworksSelector = findViewById(R.id.planned_roadworks_radio_btn);
         currentIncidentsSelector = findViewById(R.id.current_incedents_radio_btn);
@@ -170,9 +189,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // check if an options has been selected for selectOption1
                 if (selectOption1.isEmpty()) {
-                    new RssFeed(mRecyclerView, mProgressBar, mTrafficDataList).execute(selectOption2);
+                    new RssFeed(mRecyclerView, mProgressBar, mTrafficDataList, mErrorDisplay).execute(selectOption2);
                 } else {
-                    new RssFeed(mRecyclerView, mProgressBar, mTrafficDataList).execute(selectOption2, selectOption1, handlerSelection);
+                    new RssFeed(mRecyclerView, mProgressBar, mTrafficDataList, mErrorDisplay).execute(selectOption2, selectOption1, handlerSelection);
                 }
 
                 // close the keypad on button presses

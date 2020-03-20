@@ -11,49 +11,49 @@
         android:id="@+id/recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/radio_butt_group"
+        app:layout_constraintBottom_toTopOf="@+id/user_input"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/get_feed_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="214dp"
+        android:layout_height="36dp"
         android:layout_margin="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/colorPrimary"
         android:text="@string/dateSelectBtn"
         android:textColor="@color/primaryTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/user_input"
-        android:layout_width="0dp"
-        android:layout_height="47dp"
+        android:layout_width="222dp"
+        android:layout_height="46dp"
         android:layout_margin="8dp"
+        android:layout_marginStart="12dp"
         android:autofillHints=""
         android:ems="10"
         android:enabled="false"
         android:hint="@string/enter_a_road_or_date"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/radio_butt_group_rdworks"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/get_feed_btn"
         app:layout_constraintStart_toStartOf="parent" />
 
     <RadioGroup
         android:id="@+id/radio_butt_group"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/user_input"
+        app:layout_constraintBottom_toTopOf="@+id/radio_butt_group_rdworks"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toEndOf="@+id/user_input"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerview">
 
         <RadioButton
             android:id="@+id/date_radio_btn"
@@ -78,15 +78,13 @@
 
     <RadioGroup
         android:id="@+id/radio_butt_group_rdworks"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/get_feed_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toEndOf="@+id/get_feed_btn">
 
         <RadioButton
             android:id="@+id/current_roadworks_radio_btn"
