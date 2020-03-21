@@ -20,32 +20,15 @@ import java.util.LinkedList;
 
 public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.TrafficViewDataHolder> {
 
-    //private final LinkedList<String> mWordList; // passed in from mainActivity
     private ArrayList<TrafficDataModel> mTrafficDataList;
     private LayoutInflater mInflater;
     private Context context;
 
-//    public WordListAdapter(Context context, LinkedList<String> mWordList) {
-//        mInflater = LayoutInflater.from(context);
-//        this.mWordList = mWordList;
-//    }
     public WordListAdapter(Context context, ArrayList<TrafficDataModel> mTrafficDataList) {
         mInflater = LayoutInflater.from(context);
         this.mTrafficDataList = mTrafficDataList;
         this.context = context;
     }
-
-//    class WordViewHolder extends RecyclerView.ViewHolder {
-//
-//        public final TextView wordItemView;
-//        final WordListAdapter mAdapter;
-//
-//        public WordViewHolder(@NonNull View itemView, WordListAdapter adapter) {
-//            super(itemView);
-//            wordItemView = itemView.findViewById(R.id.word);
-//            this.mAdapter = adapter;
-//        }
-//    }
 
     class TrafficViewDataHolder extends RecyclerView.ViewHolder {
         public TextView titleItemView;
@@ -61,24 +44,10 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.Traffi
             iconImageView.setImageResource(R.drawable.green);
             startDateItemView = itemView.findViewById(R.id.start_date);
             endDateItemView = itemView.findViewById(R.id.end_date);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    Log.v("onClick", "traffic data list item");
-
-                }
-            });
             this.mAdapter = adapter;
         }
     }
 
-
-//    @Override
-//    public WordListAdapter.WordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View mItemView = mInflater.inflate(R.layout.wordlist_item,
-//                parent, false);
-//        return new WordViewHolder(mItemView, this);
-//    }
     @Override
     public WordListAdapter.TrafficViewDataHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View mItemView = mInflater.inflate(R.layout.traffic_date_item,
@@ -86,11 +55,6 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.Traffi
         return new TrafficViewDataHolder(mItemView, this);
     }
 
-//    @Override
-//    public void onBindViewHolder(@NonNull WordListAdapter.WordViewHolder holder, int position) {
-//        String mCurrent = mWordList.get(position);
-//        holder.wordItemView.setText(mCurrent);
-//    }
     @Override
     public void onBindViewHolder(@NonNull final WordListAdapter.TrafficViewDataHolder holder, int position) {
         final TrafficDataModel mCurrent = mTrafficDataList.get(position);

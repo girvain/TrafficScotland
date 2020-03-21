@@ -123,37 +123,6 @@ public class RssFeed extends AsyncTask<String, String, ArrayList<TrafficDataMode
     protected void onPostExecute(ArrayList newTrafficData) {
         super.onPostExecute(newTrafficData);
         String parsedString = "";
-        //mTrafficDataList = new ArrayList<>(); // assigned this in contructor
-
-//        TrafficXMLParser trafficXMLParser = new TrafficXMLParser();
-//        try {
-//            mTrafficDataList = trafficXMLParser.parse(s);
-//            // if there is a present input from the user, filter the data
-//            if (!userInput.isEmpty()) {
-//                // select the right filter method from accessing the handlerSelection value
-//                if (handlerSelection.equals("d")) {
-//                    mTrafficDataList = filterByDate(dateConvertor.convertStringToDate(userInput), mTrafficDataList);
-//                } else if (handlerSelection.equals("r")) {
-//                    mTrafficDataList = filterByRoad(userInput, mTrafficDataList);
-//                }
-//            }
-//        } catch (XmlPullParserException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
-
-
-//        // Create an adapter and supply the data to be displayed.
-//        WordListAdapter mAdapter = new WordListAdapter(mRecyclerView.get().getContext(), mTrafficDataList);
-//        // Connect the adapter with the RecyclerView.
-//        mRecyclerView.get().setAdapter(mAdapter);
-//        // Give the RecyclerView a default layout manager.
-//        mRecyclerView.get().setLayoutManager(new LinearLayoutManager(mRecyclerView.get().getContext()));
-//        mRecyclerView.get().getAdapter().
-
 
         this.mTrafficDataList.clear();
         this.mTrafficDataList.addAll(newTrafficData);

@@ -46,37 +46,22 @@ public class MainActivity extends AppCompatActivity {
     final String currentIncedentsUrl = "https://trafficscotland.org/rss/feeds/currentincidents.aspx";
     private String dateAsString = "";
 
-
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("user_input", userInput.getText().toString());
 
+        if (noneSelector.isChecked()) {
+            outState.putBoolean("noneState", true);
+        } else {
+            outState.putBoolean("noneState", false);
+        }
+
         mListState = mLayoutManager.onSaveInstanceState();
         outState.putParcelable("traffic_data_state", mListState);
         outState.putParcelableArrayList("traffic_data", mTrafficDataList);
         Log.v("SAVE", "onSaveInstanceState");
-
     }
-
-//    @Override
-
-//    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//        if (!noneSelector.isChecked()) {
-//            userInput.setEnabled(true);
-//        }
-//        Log.v("onRestore", savedInstanceState.getString("user_input").toString());
-//        Log.v("onRestore", savedInstanceState.getParcelableArrayList("traffic_data").toString());
-//        // restore the recyclerView data
-//
-//        mListState = savedInstanceState.getParcelable("traffic_data_state");
-//        mTrafficDataList = savedInstanceState.getParcelableArrayList("traffic_data");
-//        mRecyclerView.getAdapter().notifyDataSetChanged();
-//        Log.v("SAVE", "onRestoreInstanceState");
-//    }
-
 
     @Override
     protected void onStop() {
@@ -88,11 +73,6 @@ public class MainActivity extends AppCompatActivity {
         outState.putParcelable("traffic_data_state", mListState);
         outState.putParcelableArrayList("traffic_data", mTrafficDataList);
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     @Override
@@ -126,9 +106,13 @@ public class MainActivity extends AppCompatActivity {
             // This is required because the default state of user input is disabled on Activity
             // creation, so when a rotation happens with state the None radioButton not selected,
             // it keeps the userInput enabled with the users text input.
-            if (!noneSelector.isChecked()) {
+            boolean noneState = savedInstanceState.getBoolean("noneState");
+            if (noneState) {
+                userInput.setEnabled(false);
+            } else {
                 userInput.setEnabled(true);
             }
+
             // This is to collect the parcelized traffic data in the arrayList and set it up
             // before the activity is recreated
             mListState = savedInstanceState.getParcelable("traffic_data_state");
@@ -227,16 +211,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void closeKeyboard(boolean b) {
-
         View view = this.getCurrentFocus();
-
         if(b) {
             if (view != null) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
-        }
-        else {
+        } else {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(view, 0);
         }

@@ -59,11 +59,11 @@ public class TrafficXMLParser {
                         String[] startAndEndDates = getDates(xpp.getText());
                         if (startAndEndDates != null) {
                             // convert each one to Calendar object and add to trafficDataObj
-                            trafficDataObj.setStartDate(convertRssDateToCalendarObj(startAndEndDates[0]));
-                            trafficDataObj.setEndDate(convertRssDateToCalendarObj(startAndEndDates[1]));
+                            trafficDataObj.setStartDate(dateConvertor.convertRssDateToCalendarObj(startAndEndDates[0]));
+                            trafficDataObj.setEndDate(dateConvertor.convertRssDateToCalendarObj(startAndEndDates[1]));
                             // Convert long date to short version and add to trafficDataObj (String)
-                            trafficDataObj.setStartDateAsString(convertLongDateToShort(startAndEndDates[0]));
-                            trafficDataObj.setEndDateAsString(convertLongDateToShort(startAndEndDates[1]));
+                            trafficDataObj.setStartDateAsString(dateConvertor.convertLongDateToShort(startAndEndDates[0]));
+                            trafficDataObj.setEndDateAsString(dateConvertor.convertLongDateToShort(startAndEndDates[1]));
                             // set the length of time the roadworks will last
                             trafficDataObj.setRoadworksLength(dateConvertor.numberOfDays(trafficDataObj.getStartDate(), trafficDataObj.getEndDate()));
                         }
@@ -143,78 +143,6 @@ public class TrafficXMLParser {
             return desc;
         } else {
             return desc.substring(result+6, desc.length());
-        }
-    }
-
-    /**
-     * Converts the Rss feed results data format to a Calendar object. Must have only one date
-     * at a time and as such relies on the getDates() to split the description into two dates
-     * in the format "Wednesday, 01 January 2020 - 00:00".
-     * Uses the convertRssDateToCalendarObj() and the convertLongDateToShort().
-     * @param date
-     * @return
-     */
-    public Calendar convertRssDateToCalendarObj(String date) {
-        String shortDate = convertLongDateToShort(date);
-        Calendar c = convertStringToDate(shortDate);
-        return c;
-    }
-
-    // Method to parse a date from the XML long version Wednesday,  12 Febuary 2020 - 00:00
-    // to the short version 12/02/2020
-    public String convertLongDateToShort(String dateString) {
-        String regex = "\\d+";
-        String result = "";
-        String[] words = dateString.split(" ");
-        for (String word : words) {
-            if (word.matches(regex)) {
-                result+= word+ "/";
-            } else if(!getNumOfMonth(word).isEmpty()) {
-                result+= getNumOfMonth(word) + "/";
-            }
-        }
-        return result.substring(0, result.length()-1); // take the last / off the end
-    }
-
-    // Converts a date string in the format 01/02/2020 to a Calendar object
-    public Calendar convertStringToDate(String dateString) {
-        String[] numbers = dateString.split("/");
-        int day = Integer.parseInt(numbers[0]);
-        int month = Integer.parseInt(numbers[1]);
-        int year = Integer.parseInt(numbers[2]);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-        return calendar;
-    }
-
-    public String getNumOfMonth(String month) {
-        switch(month) {
-            case "January":
-                return "01";
-            case "February":
-                return "02";
-            case "March":
-                return "03";
-            case "April":
-                return "04";
-            case "May":
-                return "05";
-            case "June":
-                return "06";
-            case "July":
-                return "07";
-            case "August":
-                return "08";
-            case "September":
-                return "09";
-            case "October":
-                return "10";
-            case "November":
-                return "11";
-            case "December":
-                return "12";
-            default:
-                return "";
         }
     }
 

@@ -22,20 +22,10 @@ public class TrafficDataActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney, Australia, and move the camera.
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
         double[] parsedMapPos = getLatAndLong(trafficDataModel.getGeorss());
         LatLng mapPos = new LatLng(parsedMapPos[0], parsedMapPos[1]);
         mMap.addMarker(new MarkerOptions().position(mapPos).title(trafficDataModel.getTitle()).visible(true));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mapPos));
-//        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mapPos, 14));
-
-
     }
 
     public double[] getLatAndLong(String latlng) {
@@ -73,8 +63,5 @@ public class TrafficDataActivity extends AppCompatActivity implements OnMapReady
         rssgeo.setText(trafficDataModel.getGeorss());
         pubDate.setText(trafficDataModel.getPubDate());
         roadworksLn.setText(trafficDataModel.getRoadworksLength()+""); // convert to string
-
-
-
     }
 }
