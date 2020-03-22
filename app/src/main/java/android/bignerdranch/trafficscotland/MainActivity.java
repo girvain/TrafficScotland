@@ -1,6 +1,16 @@
 /**
  * Name: Gavin Ross
  * Matric No: S1821951
+ *
+ * Application Overview:
+ * The app allows a user to get current incidents on the road, get current roadworks and get planned
+ * roadworks. The user can search for roadworks or planned roadworks by date, which displays only
+ * results that start BEFORE or ON the date input from user and end AFTER or ON the date input from
+ * the user.  The results are displayed with a colour icon that represents a timeline of the
+ * roadworks/planned roadworks/current incident. This code is “green” for the roadworks having a
+ * length of 1 day, “amber” for 7 days and “red” for anything longer than this. The list item when
+ * clicked, will display the roadworks/planned roadworks/current incident on the map in a new Activity
+ * along with more detailed information about the data.
  */
 
 package android.bignerdranch.trafficscotland;
@@ -144,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 ////                dateInput.setText(dateFormatter.format(newDate.getTime()));
 //                dateInput.setText(newDate.getTime().toString());
 
-                dateAsString = Integer.toString(dayOfMonth) + "/" + Integer.toString((monthOfYear+1)) + "/" + Integer.toString(year);
+                dateAsString = Integer.toString(dayOfMonth) + "/" + Integer.toString((monthOfYear + 1)) + "/" + Integer.toString(year);
                 userInput.setText(dateAsString);
             }
 
@@ -217,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void closeKeyboard(boolean b) {
         View view = this.getCurrentFocus();
-        if(b) {
+        if (b) {
             if (view != null) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
