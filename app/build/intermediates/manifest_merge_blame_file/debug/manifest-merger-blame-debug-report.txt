@@ -49,72 +49,71 @@
 32-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:17:9-54
 33        android:supportsRtl="true"
 33-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:18:9-35
-34        android:testOnly="true"
-35        android:theme="@style/AppTheme" >
-35-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:19:9-40
-36
-37        <!--
-38             The API key for Google Maps-based APIs is defined as a string resource.
-39             (See the file "res/values/google_maps_api.xml").
-40             Note that the API key is linked to the encryption key used to sign the APK.
-41             You need a different API key for each encryption key, including the release key that is used to
-42             sign the APK for publishing.
-43             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-44        -->
-45        <meta-data
-45-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:29:9-31:55
-46            android:name="com.google.android.geo.API_KEY"
-46-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:30:13-58
-47            android:value="@string/google_maps_key" />
-47-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:31:13-52
-48        <meta-data
-48-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:33:9-35:69
-49            android:name="com.google.android.gms.version"
-49-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:34:13-58
-50            android:value="@integer/google_play_services_version" />
-50-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:35:13-66
-51
-52        <activity
-52-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:37:9-39:67
-53            android:name="android.bignerdranch.trafficscotland.TrafficDataActivity"
-53-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:38:13-48
-54            android:parentActivityName="android.bignerdranch.trafficscotland.MainActivity" />
-54-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:39:13-55
-55        <activity
-55-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:40:9-49:20
-56            android:name="android.bignerdranch.trafficscotland.MainActivity"
-56-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:41:13-41
-57            android:launchMode="singleTask"
-57-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:43:13-44
-58            android:windowSoftInputMode="stateHidden" >
-58-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:42:13-54
-59            <intent-filter>
-59-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:44:13-48:29
-60                <action android:name="android.intent.action.MAIN" />
-60-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:45:17-69
-60-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:45:25-66
-61
-62                <category android:name="android.intent.category.LAUNCHER" />
-62-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:47:17-77
-62-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:47:27-74
-63            </intent-filter>
-64        </activity>
-65        <!-- Needs to be explicitly declared on P+ -->
-66        <uses-library
-66-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\1b9026f860ab6935418a182675a0a44a\play-services-maps-17.0.0\AndroidManifest.xml:33:9-35:40
-67            android:name="org.apache.http.legacy"
-67-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\1b9026f860ab6935418a182675a0a44a\play-services-maps-17.0.0\AndroidManifest.xml:34:13-50
-68            android:required="false" />
-68-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\1b9026f860ab6935418a182675a0a44a\play-services-maps-17.0.0\AndroidManifest.xml:35:13-37
-69
-70        <activity
-70-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\e91790921c910b5c0de2045e813ad59c\play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
-71            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-71-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\e91790921c910b5c0de2045e813ad59c\play-services-base-17.0.0\AndroidManifest.xml:24:13-79
-72            android:exported="false"
-72-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\e91790921c910b5c0de2045e813ad59c\play-services-base-17.0.0\AndroidManifest.xml:25:13-37
-73            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-73-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\e91790921c910b5c0de2045e813ad59c\play-services-base-17.0.0\AndroidManifest.xml:26:13-72
-74    </application>
-75
-76</manifest>
+34        android:theme="@style/AppTheme" >
+34-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:19:9-40
+35
+36        <!--
+37             The API key for Google Maps-based APIs is defined as a string resource.
+38             (See the file "res/values/google_maps_api.xml").
+39             Note that the API key is linked to the encryption key used to sign the APK.
+40             You need a different API key for each encryption key, including the release key that is used to
+41             sign the APK for publishing.
+42             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+43        -->
+44        <meta-data
+44-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:29:9-31:55
+45            android:name="com.google.android.geo.API_KEY"
+45-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:30:13-58
+46            android:value="@string/google_maps_key" />
+46-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:31:13-52
+47        <meta-data
+47-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:33:9-35:69
+48            android:name="com.google.android.gms.version"
+48-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:34:13-58
+49            android:value="@integer/google_play_services_version" />
+49-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:35:13-66
+50
+51        <activity
+51-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:37:9-39:67
+52            android:name="android.bignerdranch.trafficscotland.TrafficDataActivity"
+52-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:38:13-48
+53            android:parentActivityName="android.bignerdranch.trafficscotland.MainActivity" />
+53-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:39:13-55
+54        <activity
+54-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:40:9-49:20
+55            android:name="android.bignerdranch.trafficscotland.MainActivity"
+55-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:41:13-41
+56            android:launchMode="singleTask"
+56-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:43:13-44
+57            android:windowSoftInputMode="stateHidden" >
+57-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:42:13-54
+58            <intent-filter>
+58-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:44:13-48:29
+59                <action android:name="android.intent.action.MAIN" />
+59-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:45:17-69
+59-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:45:25-66
+60
+61                <category android:name="android.intent.category.LAUNCHER" />
+61-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:47:17-77
+61-->C:\Users\gavin\StudioProjects\TrafficScotland\app\src\main\AndroidManifest.xml:47:27-74
+62            </intent-filter>
+63        </activity>
+64        <!-- Needs to be explicitly declared on P+ -->
+65        <uses-library
+65-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\1b9026f860ab6935418a182675a0a44a\play-services-maps-17.0.0\AndroidManifest.xml:33:9-35:40
+66            android:name="org.apache.http.legacy"
+66-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\1b9026f860ab6935418a182675a0a44a\play-services-maps-17.0.0\AndroidManifest.xml:34:13-50
+67            android:required="false" />
+67-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\1b9026f860ab6935418a182675a0a44a\play-services-maps-17.0.0\AndroidManifest.xml:35:13-37
+68
+69        <activity
+69-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\e91790921c910b5c0de2045e813ad59c\play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
+70            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+70-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\e91790921c910b5c0de2045e813ad59c\play-services-base-17.0.0\AndroidManifest.xml:24:13-79
+71            android:exported="false"
+71-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\e91790921c910b5c0de2045e813ad59c\play-services-base-17.0.0\AndroidManifest.xml:25:13-37
+72            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+72-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\gavin\.gradle\caches\transforms-2\files-2.1\e91790921c910b5c0de2045e813ad59c\play-services-base-17.0.0\AndroidManifest.xml:26:13-72
+73    </application>
+74
+75</manifest>
