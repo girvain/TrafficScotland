@@ -1,5 +1,8 @@
 package android.bignerdranch.trafficscotland;
-
+/**
+ * Name: Gavin Ross
+ * Matric No: S1821951
+ */
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
